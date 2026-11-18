@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /_boost/
+
+# Sitemap
+Sitemap: https://vkuniformes.com/sitemap.xml
+
+# AI-friendly content
+# llms.txt: https://vkuniformes.com/llms.txt

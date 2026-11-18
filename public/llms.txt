@@ -1,0 +1,40 @@
+# VK Uniformes — Catálogo Digital
+
+> Fabricante y distribuidor de uniformes profesionales: scrubs médicos, mandiles, gorritos de chef,
+> uniformes de odontopediatría y más. Tienda en línea con catálogo de colecciones.
+
+## Resumen
+
+VK Uniformes es una empresa especializada en uniformes profesionales para el sector salud,
+gastronomía y educación. Ofrecemos prendas de alta calidad disponibles en múltiples colores
+y tallas, con opción de personalización y bordados.
+
+## Colecciones principales
+
+- **Scrub Hombres** — Uniformes médicos de dos piezas para hombre
+- **Scrub Mujeres** — Uniformes médicos de dos piezas para mujer
+- **Mandiles** — Mandiles para profesionales de cocina y gastronomía
+- **Gorritos** — Gorros estampados para odontopediatría y pediatría
+- **Odontopediatría** — Uniformes temáticos para clínicas infantiles
+- **Scrubs Universidades** — Uniformes personalizados para estudiantes
+- **Chef** — Uniformes completos para chef y cocina profesional
+
+## Características del catálogo
+
+- Filtro por color, talla y categoría
+- Galería de fotos por color de cada prenda
+- Selector de tallas interactivo
+- Consulta y cotización directa vía WhatsApp
+- Envíos a nivel nacional
+
+## URLs importantes
+
+- Inicio: {{ config('app.url') }}/
+- Catálogo: {{ config('app.url') }}/catalogo
+- Privacidad: {{ config('app.url') }}/privacidad
+- Cookies: {{ config('app.url') }}/cookies
+- Sitemap: {{ config('app.url') }}/sitemap.xml
+
+## Contacto
+
+Consultas y cotizaciones a través de WhatsApp disponible en el sitio web.
