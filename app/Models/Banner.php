@@ -37,7 +37,7 @@ class Banner extends Model
 
     public function imageUrl(): ?string
     {
-        if ($this->image_path) {
+        if ($this->image_path && Storage::disk('public')->exists($this->image_path)) {
             return Storage::disk('public')->url($this->image_path);
         }
 

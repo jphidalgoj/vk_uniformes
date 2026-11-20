@@ -41,6 +41,10 @@ class Category extends Model
             return $this->image_path;
         }
 
-        return Storage::disk('public')->url($this->image_path);
+        if (Storage::disk('public')->exists($this->image_path)) {
+            return Storage::disk('public')->url($this->image_path);
+        }
+
+        return null;
     }
 }
