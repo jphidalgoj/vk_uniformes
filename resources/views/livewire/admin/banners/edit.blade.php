@@ -192,11 +192,27 @@
                         )
                     )
 
-                        <img
-                            src="{{ $image->temporaryUrl() }}"
-                            alt="Vista previa de nueva fotografía"
-                            class="aspect-[5/4] w-full object-cover"
-                        >
+                        @php
+                            $previewUrl = null;
+                            try {
+                                $previewUrl = $image->temporaryUrl();
+                            } catch (\Throwable $e) {
+                                $previewUrl = null;
+                            }
+                        @endphp
+                        @if ($previewUrl)
+                            <img
+                                src="{{ $previewUrl }}"
+                                alt="Vista previa de nueva fotografía"
+                                class="aspect-[5/4] w-full object-cover"
+                                onerror="this.style.display='none';"
+                            >
+                        @else
+                            <div class="flex aspect-[5/4] w-full flex-col items-center justify-center rounded-xl bg-purple-50 p-4 text-center text-xs text-purple-900">
+                                <span class="text-3xl">📷</span>
+                                <span class="mt-2 font-semibold">{{ $image->getClientOriginalName() }}</span>
+                            </div>
+                        @endif
 
                     @elseif ($banner->image_path && ! $removeImage)
 

@@ -434,12 +434,27 @@
                                 true
                             )
                         )
-                            <img
-                                src="{{ $image->temporaryUrl() }}"
-                                alt="Vista previa"
-                                class="mt-4 h-36 w-36 rounded-xl
-                                       object-cover"
-                            >
+                            @php
+                                $previewUrl = null;
+                                try {
+                                    $previewUrl = $image->temporaryUrl();
+                                } catch (\Throwable $e) {
+                                    $previewUrl = null;
+                                }
+                            @endphp
+                            @if ($previewUrl)
+                                <img
+                                    src="{{ $previewUrl }}"
+                                    alt="Vista previa"
+                                    class="mt-4 h-36 w-36 rounded-xl object-cover"
+                                    onerror="this.style.display='none';"
+                                >
+                            @else
+                                <div class="mt-4 flex h-36 w-36 flex-col items-center justify-center rounded-xl bg-purple-50 p-2 text-center text-xs text-purple-900">
+                                    <span class="text-2xl">📷</span>
+                                    <span class="mt-1 truncate max-w-full font-semibold">{{ $image->getClientOriginalName() }}</span>
+                                </div>
+                            @endif
                         @elseif ($currentImage && ! $removeImage)
 
                             <img

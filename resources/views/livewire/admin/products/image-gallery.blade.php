@@ -183,8 +183,23 @@
                     <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
                         @foreach ($photos as $index => $photo)
                             @if (in_array($photo->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'], true))
-                                <div wire:key="preview-{{ $index }}" class="overflow-hidden rounded-xl border border-purple-200">
-                                    <img src="{{ $photo->temporaryUrl() }}" alt="Previa {{ $index + 1 }}" class="aspect-[4/5] w-full object-cover">
+                                <div wire:key="preview-{{ $index }}" class="overflow-hidden rounded-xl border border-purple-200 bg-gray-50">
+                                    @php
+                                        $previewUrl = null;
+                                        try {
+                                            $previewUrl = $photo->temporaryUrl();
+                                        } catch (\Throwable $e) {
+                                            $previewUrl = null;
+                                        }
+                                    @endphp
+                                    @if ($previewUrl)
+                                        <img src="{{ $previewUrl }}" alt="Previa {{ $index + 1 }}" class="aspect-[4/5] w-full object-cover" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+                                    @endif
+                                    <div class="aspect-[4/5] w-full flex flex-col items-center justify-center p-2 text-center text-xs text-gray-500" @if($previewUrl) style="display:none;" @endif>
+                                        <span class="text-xl">📷</span>
+                                        <span class="mt-1 font-semibold truncate max-w-full text-[11px]">{{ $photo->getClientOriginalName() }}</span>
+                                        <span class="text-[9px] text-green-700 bg-green-50 px-2 py-0.5 rounded-full mt-1">Listo para guardar</span>
+                                    </div>
                                 </div>
                             @endif
                         @endforeach

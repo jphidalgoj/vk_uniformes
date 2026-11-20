@@ -48,19 +48,32 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 // Servir archivos multimedia de storage con soporte de streaming (video/mp4 y byte-ranges)
 Route::get('/storage/{path}', function (string $path) {
+    $decodedPath = ltrim(urldecode($path), '/');
     $disk = Storage::disk('public');
-    if (! $disk->exists($path)) {
-        abort(404);
+
+    if ($disk->exists($decodedPath)) {
+        $fullPath = $disk->path($decodedPath);
+        $mimeType = $disk->mimeType($decodedPath) ?: 'application/octet-stream';
+
+        return response()->file($fullPath, [
+            'Content-Type' => $mimeType,
+            'Accept-Ranges' => 'bytes',
+            'Cache-Control' => 'public, max-age=604800',
+        ]);
     }
 
-    $fullPath = $disk->path($path);
-    $mimeType = $disk->mimeType($path) ?: 'application/octet-stream';
+    $directPath = storage_path('app/public/'.$decodedPath);
+    if (file_exists($directPath)) {
+        $mimeType = mime_content_type($directPath) ?: 'application/octet-stream';
 
-    return response()->file($fullPath, [
-        'Content-Type' => $mimeType,
-        'Accept-Ranges' => 'bytes',
-        'Cache-Control' => 'public, max-age=604800',
-    ]);
+        return response()->file($directPath, [
+            'Content-Type' => $mimeType,
+            'Accept-Ranges' => 'bytes',
+            'Cache-Control' => 'public, max-age=604800',
+        ]);
+    }
+
+    abort(404);
 })->where('path', '.*')->name('storage.file');
 
 // =========================================

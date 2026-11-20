@@ -270,7 +270,14 @@
                 <div class="{{ $type === 'lines' ? 'landing-lines' : 'store-category-grid' }}">
                     @forelse ($categories as $category)
                         <a class="store-category" href="{{ route('store.category', $category->slug) }}">
-                            <div class="store-category-image">@if ($category->image_path)<img src="{{ Storage::disk('public')->url($category->image_path) }}" alt="{{ $category->name }}" loading="lazy">@else<span aria-hidden="true">VK</span>@endif</div>
+                            <div class="store-category-image">
+                                @if ($category->imageUrl())
+                                    <img src="{{ $category->imageUrl() }}" alt="{{ $category->name }}" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+                                    <span aria-hidden="true" style="display: none;">VK</span>
+                                @else
+                                    <span aria-hidden="true">VK</span>
+                                @endif
+                            </div>
                             <h3>{{ $category->name }}</h3>
                             @if ($type === 'lines')<span>Conoce más ↗</span>@endif
                         </a>

@@ -43,8 +43,28 @@ class Banner extends Model
 
         $asset = $this->content['asset'] ?? '';
 
-        return $asset && ! str_contains($asset, '..') && preg_match('#^(slider|secciones|images|fotos|demo-products)/#', $asset)
-            ? asset($asset) : null;
+        if (! $asset || str_contains($asset, '..') || ! preg_match('#^(slider|secciones|images|fotos|demo-products)/#', $asset)) {
+            return null;
+        }
+
+        $asciiMap = [
+            'slider/Eleva tu look con gorritos VK.png' => 'slider/eleva-tu-look-gorritos.png',
+            'slider/Uniformes que inspiran profesionalismo (1).png' => 'slider/uniformes-inspiran-profesionalismo.png',
+            'slider/VK Uniformes_ Colección Ribknit Profesional.png' => 'slider/coleccion-ribknit-profesional.png',
+            'secciones/Conjunto clínico VK_ comodidad total.png' => 'secciones/conjunto-clinico-comodidad.png',
+            'secciones/Gorritos quirúrgicos con estilo y color.png' => 'secciones/gorritos-quirurgicos.png',
+            'secciones/Promoción VK Uniformes_ Ahorra hasta 20%.png' => 'secciones/promocion-vk-uniformes.png',
+            'secciones/Uniformes médicos VK en azul y rosa.png' => 'secciones/uniformes-medicos-azul-rosa.png',
+            'secciones/Uniformes VK_ Estilo en Borgoña.png' => 'secciones/uniformes-vk-estilo-borgona.png',
+        ];
+
+        if (isset($asciiMap[$asset])) {
+            $asset = $asciiMap[$asset];
+        }
+
+        $segments = array_map('rawurlencode', explode('/', $asset));
+
+        return asset(implode('/', $segments));
     }
 
     public function destination(): string
