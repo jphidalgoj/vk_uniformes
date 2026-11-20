@@ -12,6 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: '*');
+
+        $middleware->redirectTo(
+            guests: '/admin/login',
+            users: '/admin/dashboard',
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
